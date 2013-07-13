@@ -20,6 +20,7 @@ lint.xml
 *.ap_
 *.dex
 local.properties
+.gradle/
 
 # INTELLIJ
 out/

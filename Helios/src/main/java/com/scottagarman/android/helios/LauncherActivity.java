@@ -21,6 +21,10 @@ import android.widget.TextView;
 import com.scottagarman.android.helios.api.hueapi.HueApi;
 import com.scottagarman.android.helios.api.hueapi.HueApiService;
 import com.scottagarman.android.helios.api.hueapi.models.HueBridgeModel;
+import com.scottagarman.android.helios.api.huebridgeapi.BridgeApi;
+import com.scottagarman.android.helios.api.huebridgeapi.BridgeApiService;
+import com.scottagarman.android.helios.api.huebridgeapi.models.DeviceUser;
+import com.scottagarman.android.helios.api.huebridgeapi.models.DeviceUserResponse;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -88,8 +92,26 @@ public class LauncherActivity extends FragmentActivity implements ActionBar.TabL
             @Override
             public void success(ArrayList<HueBridgeModel> hueBridgeModels, Response response) {
                 Log.d("Helios/", "Response: " + response.getStatus());
+                HueBridgeModel lastBridgeInArray = null;
                 for(HueBridgeModel bridge : hueBridgeModels) {
                     Log.d("Helios/", bridge.getMacaddress());
+                    lastBridgeInArray = bridge;
+                }
+
+                if(lastBridgeInArray != null) {
+                    Log.d("Helios/", "Creating user for bridge: " + lastBridgeInArray.getInternalipaddress());
+                    BridgeApiService bridgeApiService = BridgeApi.getBridgeApiService(lastBridgeInArray);
+                    bridgeApiService.createUser(DeviceUser.createDeviceUser(null, null), new Callback<ArrayList<DeviceUserResponse>>() {
+                        @Override
+                        public void success(ArrayList<DeviceUserResponse> deviceUserResponses, Response response) {
+                            Log.d("Helios/", "create bridge response: " + deviceUserResponses.get(0).getError().toString());
+                        }
+
+                        @Override
+                        public void failure(RetrofitError retrofitError) {
+                            Log.d("Helios/", "Error in create user: " + retrofitError.toString());
+                        }
+                    });
                 }
             }
 
