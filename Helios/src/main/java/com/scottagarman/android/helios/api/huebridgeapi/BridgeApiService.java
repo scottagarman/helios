@@ -14,5 +14,5 @@ import retrofit.http.POST;
 public interface BridgeApiService {
 
     @POST("/")
-    void createUser(@Body DeviceUser deviceUser, Callback<ArrayList<DeviceUserResponse>> callback);
+    void createUser(@Body DeviceUser deviceUser, Callback<DeviceUserResponse> callback);
 }

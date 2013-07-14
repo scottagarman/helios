@@ -100,18 +100,8 @@ public class LauncherActivity extends FragmentActivity implements ActionBar.TabL
 
                 if(lastBridgeInArray != null) {
                     Log.d("Helios/", "Creating user for bridge: " + lastBridgeInArray.getInternalipaddress());
-                    BridgeApiService bridgeApiService = BridgeApi.getBridgeApiService(lastBridgeInArray);
-                    bridgeApiService.createUser(DeviceUser.createDeviceUser(null, null), new Callback<ArrayList<DeviceUserResponse>>() {
-                        @Override
-                        public void success(ArrayList<DeviceUserResponse> deviceUserResponses, Response response) {
-                            Log.d("Helios/", "create bridge response: " + deviceUserResponses.get(0).getError().toString());
-                        }
-
-                        @Override
-                        public void failure(RetrofitError retrofitError) {
-                            Log.d("Helios/", "Error in create user: " + retrofitError.toString());
-                        }
-                    });
+                    BridgeConnector bridgeConnector = new BridgeConnector();
+                    bridgeConnector.authenticateToBridge(lastBridgeInArray);
                 }
             }
 

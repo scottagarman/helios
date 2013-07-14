@@ -17,13 +17,13 @@ public class HueApi {
     private static RestAdapter getHueApiRestAdapter() {
         return new RestAdapter.Builder()
                 .setServer(HueApi.API_URL) // The base API endpoint.
-                .setDebug(true)
-                .setLog(new RestAdapter.Log() {
-                    @Override
-                    public void log(String s) {
-                        Log.d("Helios/retrofit", s);
-                    }
-                })
+//                .setDebug(true)
+//                .setLog(new RestAdapter.Log() {
+//                    @Override
+//                    public void log(String s) {
+//                        Log.d("Helios/retrofit", s);
+//                    }
+//                })
                 .build();
     }
 }

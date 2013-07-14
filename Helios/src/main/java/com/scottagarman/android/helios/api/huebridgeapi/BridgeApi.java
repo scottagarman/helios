@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.scottagarman.android.helios.api.hueapi.HueApiService;
 import com.scottagarman.android.helios.api.hueapi.models.HueBridgeModel;
+import com.scottagarman.android.helios.api.huebridgeapi.Gson.ResponseAdapterFactory;
 
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
@@ -19,15 +20,19 @@ public class BridgeApi {
     }
 
     private static RestAdapter getBridgeApiRestAdapter(HueBridgeModel bridge) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new ResponseAdapterFactory())
+                .create();
         return new RestAdapter.Builder()
                 .setServer(createApiBase(bridge.getInternalipaddress())) // The base API endpoint.
-                .setDebug(true)
-                .setLog(new RestAdapter.Log() {
-                    @Override
-                    public void log(String s) {
-                        Log.d("Helios/retrofit", s);
-                    }
-                })
+                .setConverter(new GsonConverter(gson))
+//                .setDebug(true)
+//                .setLog(new RestAdapter.Log() {
+//                    @Override
+//                    public void log(String s) {
+//                        Log.d("Helios/retrofit", s);
+//                    }
+//                })
                 .build();
     }
 

@@ -1,9 +1,11 @@
 package com.scottagarman.android.helios.api.huebridgeapi.models;
 
+import com.scottagarman.android.helios.api.huebridgeapi.Gson.BaseArrayResponse;
+
 /**
  * Created by scottagarman on 7/12/13.
  */
-public class DeviceUserResponse {
+public class DeviceUserResponse extends BaseArrayResponse {
     private DeviceUser success;
     private Error error;
 
